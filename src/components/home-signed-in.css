@@ -1,0 +1,40 @@
+.home-content-signed {
+    width: 100vw;
+    height: 90vh;
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+}
+
+.left-content {
+    display: flex;
+    grid-column: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-content {
+    display: flex;
+    grid-column: 2;
+    align-items: center;
+    justify-content: left;
+}
+
+.charge-container {
+    width: 60%;
+    height: 70%;
+    border: solid 1px #000;
+    border-radius: 6px;
+}
+
+.groups-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    border: solid 1px #000;
+    border-radius: 6px;
+    align-items: flex-start;
+}
+
+.groups-container a {
+    color: black;
+  }

@@ -1,0 +1,104 @@
+.header-container {
+    background-color: #FEEFE5;
+    top: 0;
+    left: 0;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid white;
+    color: #EE6123;
+    z-index: 1000; /* Ensure header is above other content */
+  }
+
+  .team-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    justify-self: flex-start;
+    text-decoration: none;
+    color: #EE6123;
+  }
+  
+  .dropdown-icon {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #EE6123;
+  }
+
+  .signed-in-component {
+    display: flex;
+    width: 100%;
+    color: #EE6123;
+    grid-column: 2;
+    justify-content: flex-end;
+  }
+
+  .icon {
+    height: 40px;
+    align-self: center;
+  }
+
+  /* Profile Icon */
+.profile-icon {
+    cursor: pointer;   
+    align-self: center;
+  }
+  
+  /* Dropdown Menu */
+  .dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    top: 80px; /* Adjust based on the profile icon size */
+    z-index: 1000;
+  }
+  
+  .dropdown-menu a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .signed-out-component {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .log-in-button {
+    background-color: white;
+    border: none;
+    color: #EE6123;
+  }
+
+  .sign-up-button {
+    margin: 0 20px;
+    background-color: #EE6123;
+    color: white;
+    border: none;
+  }
+
+  .sign-up-button:hover {
+    background-color: white;
+    color: #EE6123;
+  }
+
+  .log-in-button:hover {
+    background-color: #EE6123;
+    color: white;
+  }
+
+  .sign-up-button a {
+    color: white;
+  }
