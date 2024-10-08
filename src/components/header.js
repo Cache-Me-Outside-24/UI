@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import Button from './button';
-import './header.css';
+import './styling/header.css';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false); 
-  const [isSignedIn] = useState(true);
+  const [isSignedIn] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen); 
@@ -31,10 +31,10 @@ function Header() {
         </div>
       ) : (
         <div className='signed-out-component'>
-          <Button href="" className="sign-up-button">
+          <Button href="/sign-up" className="sign-up-button">
             Sign Up
           </Button>
-          <Button href="" className="log-in-button">
+          <Button href="/login" className="log-in-button">
             Log In
           </Button>
         </div>

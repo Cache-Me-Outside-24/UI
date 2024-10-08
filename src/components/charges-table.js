@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './charges-table.css'; 
+import './styling/charges-table.css'; 
 
 const ChargesTable = ({ action }) => {
   const [charges, setCharges] = useState([]);

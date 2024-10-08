@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './groups-preview.css'; 
+import './styling/groups-preview.css'; 
 
 function GroupsPreview() {
   const [groups, setGroups] = useState([

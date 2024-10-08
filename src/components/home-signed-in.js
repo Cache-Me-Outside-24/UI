@@ -1,5 +1,5 @@
 import React from 'react';
-import './home-signed-in.css'
+import './styling/home-signed-in.css'
 import ChargesTable from './charges-table'
 import GroupsPreview from './groups-preview';
 import Button from './button';

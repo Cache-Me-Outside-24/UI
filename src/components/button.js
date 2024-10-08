@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link for internal navigation
-import './button.css';
+import './styling/button.css';
 
 function Button({ href, children, className, target = '_self' }) {
   // Determine if href is an internal path or an external URL
