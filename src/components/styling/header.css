@@ -1,25 +1,40 @@
 .header-container {
-    background-color: #FEEFE5;
     top: 0;
     left: 0;
     display: grid;
     gap: 20px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 20px;
-    border-bottom: 1px solid white;
-    color: #EE6123;
+    padding: 24px 20px;
+    border-bottom: 1px solid #cecccc;
+    color: #233D4D;
     z-index: 1000; /* Ensure header is above other content */
   }
 
   .team-name {
-    font-size: 1.4em;
-    font-weight: bold;
+    font-family: "Monoton", sans-serif;
+    font-size: 1.6em;
+    font-weight: 500;
     justify-self: flex-start;
     text-decoration: none;
-    color: #EE6123;
+    color: #233D4D;
   }
+
+  .header-nav {
+    display: flex;  
+    justify-self: end;             
+    grid-column: 4; 
+    font-size: 1.3em;
+    gap: 15px;                        
+  }
+
+  .header-nav a {
+    text-decoration: none;        
+    color: #233D4D;  
+    margin-left: 15px;       
+  }
+
   
   .dropdown-icon {
     display: none;
@@ -32,7 +47,7 @@
     display: flex;
     width: 100%;
     color: #EE6123;
-    grid-column: 2;
+    grid-column: 5;
     justify-content: flex-end;
   }
 
@@ -79,23 +94,23 @@
   .log-in-button {
     background-color: white;
     border: none;
-    color: #EE6123;
+    color: #233D4D;
   }
 
   .sign-up-button {
     margin: 0 20px;
-    background-color: #EE6123;
+    background-color: #233D4D;
     color: white;
     border: none;
   }
 
   .sign-up-button:hover {
     background-color: white;
-    color: #EE6123;
+    color: #233D4D;
   }
 
   .log-in-button:hover {
-    background-color: #EE6123;
+    background-color: #233D4D;
     color: white;
   }
 

@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
-import "./styling/groups-preview.css";
-import { AppContext } from "../AppContext"; // Import the context
+import "./styling/groups-list.css";
+import { AppContext } from "../AppContext";
 
-function GroupsPreview() {
+// currently identical to groupsPreview
+// TODO: either change groupslist on groups page or find way to use same component for both
+function GroupsList({ onSelectGroup }) {
+  // TODO: REPLACE WITH API GET
   const { groups } = useContext(AppContext);
 
   return (
@@ -16,7 +19,7 @@ function GroupsPreview() {
         </thead>
         <tbody>
           {groups.map((group, index) => (
-            <tr key={index}>
+            <tr key={index} onClick={() => onSelectGroup(group)}>
               <td className="td">{group.name}</td>
               <td className="td">{group.members.join(", ")}</td>
             </tr>
@@ -27,4 +30,4 @@ function GroupsPreview() {
   );
 }
 
-export default GroupsPreview;
+export default GroupsList;

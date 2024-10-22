@@ -1,0 +1,48 @@
+
+
+
+.create-group-header {
+    margin: 30px;
+    font-size: 2.0em;
+    font-weight: bold;
+    color: #233D4D
+}
+
+
+.create-group-form {
+    background-color: transparent; 
+    color: #233D4D
+}
+
+.create-group-form input {
+    width: 50%; 
+    padding: 10px;
+    margin-bottom: 15px; 
+    box-sizing: border-box; 
+    border: none; 
+    border-bottom: 2px solid #233D4D;
+    outline: none;
+    background-color: transparent;
+}
+
+.create-group-form label {
+    display: block; 
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.member-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-bottom: 20px;
+  }
+
+.member-input button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
