@@ -1,44 +1,64 @@
-import React, { useState } from 'react';
-import './styling/login-form.css'
+import React, { useState } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import "./styling/login-form.css";
 
-const LogInForm = () => {
+const LogInForm = ({ onLoginSuccess }) => {
+  // Accept onLoginSuccess as a prop
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-  
-  const [error, setError] = useState('');
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const { username, email, password } = formData;
+
+    const { email, password } = formData;
 
     // Basic validation
-    if (!username || !email || !password) {
-      setError('All fields are required');
+    if (!email || !password) {
+      setError("All fields are required");
       return;
     }
-    
-    setError('');
-    
-    // Submit form data (can be sent to a backend)
-    console.log('Form submitted', formData);
+
+    setError("");
+    setLoading(true);
+
+    const auth = getAuth();
+
+    try {
+      // Firebase login
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log("User logged in:", user);
+
+      // Call the onLoginSuccess prop to trigger navigation in LogIn.js
+      onLoginSuccess();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-form">
-      <h1 className='welcome-msg'>Welcome Back to Crewcut</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <h1 className="welcome-msg">Welcome Back to Crewcut</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email</label>
@@ -47,6 +67,7 @@ const LogInForm = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
+            required
           />
         </div>
         <div>
@@ -56,9 +77,12 @@ const LogInForm = () => {
             name="password"
             value={formData.password}
             onChange={handleInputChange}
+            required
           />
         </div>
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Log In"}
+        </button>
       </form>
     </div>
   );
