@@ -6,6 +6,8 @@ import LogIn from "./pages/login";
 import Groups from "./pages/groups";
 import Balances from "./pages/balances";
 import CreateGroup from "./pages/create-group";
+import PrivateRoute from "./PrivateRoute";
+import { AuthProvider } from "./AuthContext";
 
 import "./App.css";
 
@@ -13,14 +15,44 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/groups" element={<Groups />} />
-          <Route path="/balances" element={<Balances />} />
-          <Route path="/create-group" element={<CreateGroup />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route
+              path="/groups"
+              element={
+                <PrivateRoute>
+                  <Groups />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/balances"
+              element={
+                <PrivateRoute>
+                  <Balances />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create-group"
+              element={
+                <PrivateRoute>
+                  <CreateGroup />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </AuthProvider>
       </Router>
     </div>
   );

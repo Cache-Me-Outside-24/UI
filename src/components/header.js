@@ -1,15 +1,37 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import Button from "./button";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"; // Import Firebase Auth
 import "./styling/header.css";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSignedIn] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false); // Update based on Firebase Auth state
+  const navigate = useNavigate(); // To navigate to /login after logout
+  const auth = getAuth();
+
+  useEffect(() => {
+    // Set up Firebase listener to track auth state
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsSignedIn(!!user); // Set isSignedIn to true if user is signed in, false otherwise
+    });
+
+    // Clean up the listener on component unmount
+    return () => unsubscribe();
+  }, [auth]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login"); // Redirect to /login after signing out
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
@@ -36,7 +58,9 @@ function Header() {
             <div className="dropdown-menu">
               <Link to="/profile">Profile</Link>
               <Link to="/settings">Settings</Link>
-              <Link to="/logout">Logout</Link>
+              <button onClick={handleLogout} className="logout-button">
+                Logout
+              </button>
             </div>
           )}
         </div>
