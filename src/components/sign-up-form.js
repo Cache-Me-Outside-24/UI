@@ -61,7 +61,11 @@ const SignUpForm = ({ onSignUpSuccess }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user_email: user.email, username: username }),
+        body: JSON.stringify({
+          user_email: user.email,
+          username: username,
+          uid: user.uid,
+        }),
       });
 
       console.log("User signed up:", user);
