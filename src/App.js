@@ -6,6 +6,7 @@ import LogIn from "./pages/login";
 import Groups from "./pages/groups";
 import Balances from "./pages/balances";
 import CreateGroup from "./pages/create-group";
+import CreateExpense from "./pages/create-expense";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./AuthContext";
 
@@ -48,6 +49,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <CreateGroup />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create-expense"
+              element={
+                <PrivateRoute>
+                  <CreateExpense />
                 </PrivateRoute>
               }
             />
