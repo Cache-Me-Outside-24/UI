@@ -7,6 +7,7 @@ import Groups from "./pages/groups";
 import Balances from "./pages/balances";
 import CreateGroup from "./pages/create-group";
 import CreateExpense from "./pages/create-expense";
+import AccountSettings from "./pages/account-settings";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./AuthContext";
 
@@ -28,6 +29,7 @@ function App() {
             />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
+            <Route path="/account" element={<AccountSettings />} />
             <Route
               path="/groups"
               element={

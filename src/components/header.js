@@ -56,8 +56,7 @@ function Header() {
 
           {isOpen && (
             <div className="dropdown-menu">
-              <Link to="/profile">Profile</Link>
-              <Link to="/settings">Settings</Link>
+              <Link to="/account">Account</Link>
               <button onClick={handleLogout} className="logout-button">
                 Logout
               </button>
