@@ -1,30 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./styling/groups-preview.css";
 import { AppContext } from "../AppContext";
 import { fetchGroups } from "../api/groupApi";
 
 function GroupsPreview() {
-  const [groups, setGroups] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadGroups() {
-      try {
-        setLoading(true);
-        const data = await fetchGroups();
-        setGroups(data.data); 
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadGroups();
-  }, []);
-
-  if (loading) return <p>Loading groups...</p>;
-  if (error) return <p>Error loading groups: {error}</p>;
+  const { groups, setGroups } = useContext(AppContext);
 
   return (
     <div className="groups-preview-container">

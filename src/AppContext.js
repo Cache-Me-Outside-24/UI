@@ -1,11 +1,11 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
 // Temporary Context and Provider to serve mock data to the front end
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const apiURL = process.env.REACT_APP_GROUP_SERVICE_API_BASE_URL;
 
@@ -15,13 +15,14 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
+        if (loading) return;
         if (!user || !user.uid) {
           console.warn("User is not authenticated");
           return;
         }
 
         const response = await fetch(
-          `${apiURL}/groups?user_id=${user.uid}&limit=10&offset=0`
+          `${apiURL}/groups?user_id=${user.uid}&limit=${10}&offset=${0}`
         );
 
         if (!response.ok) {
@@ -39,7 +40,7 @@ export const AppProvider = ({ children }) => {
     };
 
     fetchGroups();
-  }, [user]);
+  }, [user, loading]);
 
   return (
     <AppContext.Provider

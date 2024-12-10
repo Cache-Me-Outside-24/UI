@@ -10,7 +10,11 @@ const PrivateRoute = ({ children }) => {
     return <p>Loading...</p>; // Show a loading message while auth state is checked
   }
 
-  return user ? children : <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
 };
 
 export default PrivateRoute;

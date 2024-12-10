@@ -3,7 +3,7 @@ import "./styling/home-signed-in.css";
 import ChargesTable from "./charges-table";
 import GroupsPreview from "./groups-preview";
 import Button from "./button";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../AuthContext";
 
 function HomeSignedChild() {
   const { user } = useAuth();
