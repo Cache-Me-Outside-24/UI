@@ -9,6 +9,7 @@ import CreateGroup from "./pages/create-group";
 import CreateExpense from "./pages/create-expense";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./AuthContext";
+import { AppProvider } from "./AppContext";
 
 import "./App.css";
 
@@ -17,50 +18,52 @@ function App() {
     <div className="App">
       <Router>
         <AuthProvider>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/login" element={<LogIn />} />
-            <Route
-              path="/groups"
-              element={
-                <PrivateRoute>
-                  <Groups />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/balances"
-              element={
-                <PrivateRoute>
-                  <Balances />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/create-group"
-              element={
-                <PrivateRoute>
-                  <CreateGroup />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/create-expense"
-              element={
-                <PrivateRoute>
-                  <CreateExpense />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
+          <AppProvider>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route
+                path="/groups"
+                element={
+                  <PrivateRoute>
+                    <Groups />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/balances"
+                element={
+                  <PrivateRoute>
+                    <Balances />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/create-group"
+                element={
+                  <PrivateRoute>
+                    <CreateGroup />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/create-expense"
+                element={
+                  <PrivateRoute>
+                    <CreateExpense />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </AppProvider>
         </AuthProvider>
       </Router>
     </div>

@@ -14,6 +14,8 @@ const SignUpForm = ({ onSignUpSuccess }) => {
     password: "",
   });
 
+  const apiURL = process.env.REACT_APP_USER_SERVICE_API_BASE_URL;
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -56,7 +58,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
       });
 
       // Make an API call to store the email in your database
-      await fetch("http://localhost:8000/sign-up", {
+      await fetch(`${apiURL}/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
