@@ -117,3 +117,11 @@
   .sign-up-button a {
     color: white;
   }
+
+  .dropdown-menu button {
+    background-color: #fff;
+    border: none;
+    margin-top: 0px;
+    font-size: 16px;
+    font-family: 'Jost';
+  }

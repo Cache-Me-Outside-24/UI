@@ -1,0 +1,94 @@
+.settings{
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    padding: 40px 60px;
+    justify-content: left;
+    text-align: left;
+}
+
+.pfp-options {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap:10px;
+}
+
+.profile-picture-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.settings button {
+    display:flex;
+    border-radius: 14px;
+    gap:3px;
+}
+
+.settings-button-1 {
+    background-color: white;
+}
+
+hr.solid-divider {
+    border-top: 1px solid #bbb;
+    width: 100%;
+    margin-top: 30px;
+}
+
+input {
+    width: 100%;
+    border-radius: 8px;
+}
+
+label {
+    font-size: 15px;
+}
+
+.first-name, .last-name, .current-password, .new-password {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+
+.name-box, .password-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.email-box {
+    display: flex;
+    width: 70%;
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: white;
+    height: 30px;
+    padding-left: 10px;
+    align-items: center;
+}
+
+.personal-info > button {
+    margin-top: 20px;
+    background-color: white;
+}
+
+.account-security-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.delete-button {
+    background-color: #FF2E2E;
+    color: white;
+}
+
+button:hover {
+    background-color: #bbb;
+}
+
