@@ -3,12 +3,16 @@ import "./styling/home-signed-in.css";
 import ChargesTable from "./charges-table";
 import GroupsPreview from "./groups-preview";
 import Button from "./button";
+import { useAuth } from "./AuthContext";
 
 function HomeSignedChild() {
+  const { user } = useAuth();
   return (
     <div className="home-content-signed">
       <div className="left-content">
-        <div className="welcome-message">Welcome, Rosa</div>
+        <div className="welcome-message">
+          Welcome, {user?.displayName || user?.email || "CrewCut User"}
+        </div>
         <div></div>
         <div className="charge-container">
           <h3> You are owed </h3>

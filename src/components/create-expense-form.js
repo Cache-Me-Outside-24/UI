@@ -20,6 +20,7 @@ function CreateExpenseForm() {
   // mock fetching groups and users
   useEffect(() => {
     // TODO: replace mock groups with fetch group api call
+
     const mockGroups = [
       { group_id: "Group1", name: "Friends" },
       { group_id: "Group2", name: "Family" },
