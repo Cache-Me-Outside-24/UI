@@ -13,7 +13,10 @@ function HomeSignedChild() {
         <div className="welcome-message">
           Welcome, {user?.displayName || user?.email || "CrewCut User"}
         </div>
-        <div></div>
+        <div className="subheader">
+          Recent Activity
+          <div className="subheader-line"></div>
+        </div>
         <div className="charge-container">
           <h3> You are owed </h3>
           <ChargesTable action="Remind" />
@@ -23,10 +26,32 @@ function HomeSignedChild() {
       </div>
       <div className="right-content">
         <div className="create-btns-container">
-          <Button href="/create-expense">Create Expense</Button>
-          <Button href="/create-group">Create Group</Button>
+          <div className="add-btn-container">
+            <Button
+              href="/create-expense"
+              className="add-btn"
+              id="create-expense-btn"
+            >
+              +
+            </Button>
+            <div className="btn-label">Create Expense</div>
+          </div>
+          <div className="add-btn-container">
+            <Button
+              href="/create-group"
+              className="add-btn"
+              id="create-group-btn"
+            >
+              +
+            </Button>
+            <div className="btn-label">Create Group</div>
+          </div>
         </div>
         <div className="groups-container">
+          <div className="subheader">
+            My Groups
+            <div className="subheader-line"></div>
+          </div>
           <GroupsPreview />
         </div>
       </div>
