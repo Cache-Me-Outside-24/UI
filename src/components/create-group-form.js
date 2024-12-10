@@ -8,7 +8,10 @@ function CreateGroupForm() {
   const [newGroupName, setNewGroupName] = useState("");
   const [newMember, setNewMember] = useState("");
   const [members, setMembers] = useState([]);
-  const [groupPhoto, setGroupPhoto] = useState(null); // New state for group photo
+  const [groupPhoto, setGroupPhoto] = useState(null);
+  const [groupPhotoPreview, setGroupPhotoPreview] = useState(
+    "/assets/images/default_group.png" // Default group photo path
+  );
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +32,11 @@ function CreateGroupForm() {
   };
 
   const handlePhotoChange = (e) => {
-    setGroupPhoto(e.target.files[0]); // Save the selected file
+    const file = e.target.files[0];
+    if (file) {
+      setGroupPhoto(file);
+      setGroupPhotoPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -44,48 +51,16 @@ function CreateGroupForm() {
       setLoading(true);
       setError(null);
 
-      let photoUri = null;
-
-      // If no image is uploaded, use the default image
-      let photoFile = groupPhoto;
-      if (!photoFile) {
-        photoFile = new File(
-          [
-            await fetch("/assets/images/default_profile.png").then((res) =>
-              res.blob()
-            ),
-          ],
-          "default_profile.png",
-          { type: "image/png" }
-        );
-      }
-
-      // Upload the photo to GCP
       const formData = new FormData();
-      formData.append("file", photoFile);
-
-      const uploadResponse = await fetch(`${apiURL}/upload-photo`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!uploadResponse.ok) {
-        const errorData = await uploadResponse.json();
-        throw new Error(errorData.detail || "Failed to upload photo");
+      formData.append("name", newGroupName);
+      formData.append("members", JSON.stringify(members));
+      if (groupPhoto) {
+        formData.append("group_photo", groupPhoto);
       }
 
-      const uploadData = await uploadResponse.json();
-      photoUri = uploadData.uri; // Get the URI from the response
-
-      // Send group creation data to the backend
       const response = await fetch(`${apiURL}/groups`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: newGroupName,
-          members,
-          group_photo: photoUri,
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -95,7 +70,7 @@ function CreateGroupForm() {
 
       const createdGroup = await response.json();
 
-      // Add the created group to the frontend state
+      // Update frontend state
       const updatedGroups = [
         ...groups,
         {
@@ -124,50 +99,79 @@ function CreateGroupForm() {
   return (
     <div className="create-group-form">
       <div className="create-group-header">Create New Group</div>
-      {error && <div className="error">{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="groupName">Group Name *</label>
-        <input
-          id="groupName"
-          type="text"
-          value={newGroupName}
-          onChange={(e) => setNewGroupName(e.target.value)}
-          placeholder="Enter a group name"
-          required
-        />
-
-        <div className="member-input">
-          <label htmlFor="members">Add Members</label>
-          <input
-            id="members"
-            type="email"
-            value={newMember}
-            onChange={(e) => setNewMember(e.target.value)}
-            placeholder="Enter email address"
-          />
-          <button onClick={handleAddMember} type="button">
-            Add Member
-          </button>
-        </div>
-
-        <div className="member-list">
-          {members.map((email, index) => (
-            <div key={index} className="member-item">
-              {email}
-              <button onClick={() => handleRemoveMember(email)}>X</button>
+      <div className="header-line"></div>
+      <div className="create-group-form-body">
+        {error && <div className="error">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="photo-preview-container">
+            <div className="group-photo-preview">
+              <img
+                src={groupPhotoPreview}
+                alt="Group Preview"
+                className={groupPhoto ? "uploaded-group-img" : "default-icon"}
+              />
             </div>
-          ))}
-        </div>
+          </div>
+          <div className="photo-input">
+            <label htmlFor="groupPhoto">Upload Group Photo</label>
+            <input id="groupPhoto" type="file" onChange={handlePhotoChange} />
+          </div>
+          <label htmlFor="groupName">Group Name *</label>
+          <input
+            id="groupName"
+            type="text"
+            value={newGroupName}
+            onChange={(e) => setNewGroupName(e.target.value)}
+            placeholder="Enter a group name"
+            required
+          />
 
-        <div className="photo-input">
-          <label htmlFor="groupPhoto">Upload Group Photo</label>
-          <input id="groupPhoto" type="file" onChange={handlePhotoChange} />
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Creating..." : "Submit"}
-        </button>
-      </form>
+          <div className="member-input">
+            <label htmlFor="members">Add Group Members *</label>
+            <div className="member-list">
+              {members.map((email, index) => (
+                <div key={index} className="member-item">
+                  <div className="member-item-name">{email}</div>
+                  <button
+                    className="remove-member-btn"
+                    onClick={() => handleRemoveMember(email)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="member-input-w-btn">
+              <input
+                id="members"
+                type="email"
+                value={newMember}
+                onChange={(e) => setNewMember(e.target.value)}
+                placeholder="Enter group member's email address"
+              />
+              <button
+                className="add-member-btn"
+                onClick={handleAddMember}
+                type="button"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div className="form-actions">
+            <button
+              type="button"
+              onClick={() => navigate("/groups")}
+              className="cancel-button"
+            >
+              Cancel
+            </button>
+            <button type="submit" disabled={loading} className="submit-button">
+              {loading ? "Creating..." : "Create Group"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

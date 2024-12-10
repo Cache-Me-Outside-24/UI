@@ -1,34 +1,82 @@
-
-
-
 .create-group-header {
-    margin: 30px;
-    font-size: 2.0em;
+    margin: 30px 20px 20px 70px;
+    font-size: 40px;
     font-weight: bold;
-    color: #233D4D
+    color: #233D4D;
+    text-align: left;
+
 }
 
+.header-line {
+    margin: 0 auto;
+    flex-grow: 1;
+    width: 92%;
+    height: 1px;
+    background-color: #c6c5c1;
+    margin-bottom: 50px;
+}
+
+.photo-preview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.group-photo-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #619B8A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.default-icon  {
+    width: 50%; /* Make default icon smaller */
+    height: 50%; /* Scale to half of the container */
+    object-fit: contain;
+}
+
+.uploaded-group-img {
+    object-fit: cover; /* Default for uploaded images */
+    width: 100%; /* Scale image to fit the container */
+    height: 100%;
+    border-radius: 50%;
+}
 
 .create-group-form {
     background-color: transparent; 
-    color: #233D4D
+    color: #233D4D;
+}
+
+.create-group-form-body {
+    padding: 40px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .create-group-form input {
-    width: 50%; 
+    width: 80%; 
     padding: 10px;
-    margin-bottom: 15px; 
+    margin-bottom: 50px; 
     box-sizing: border-box; 
     border: none; 
-    border-bottom: 2px solid #233D4D;
+    border-bottom: 1px solid #233D4D;
     outline: none;
     background-color: transparent;
+    border-radius: 0;
+    font-family: 'Jost', 'Segoe UI';
+    font-style: italic;
+    font-size: 15px;
 }
 
 .create-group-form label {
     display: block; 
-    text-align: center;
     margin-bottom: 10px;
+    font-size: 25px;
 }
 
 .member-input {
@@ -38,11 +86,77 @@
     margin-bottom: 20px;
   }
 
-.member-input button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
+.remove-member-btn {
+    color: #FE7F2D;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.member-item {
+    display: flex;
+    align-items: center;
+}
+
+
+.member-item-name {
+    background-color: #619B8A;
+    border-radius: 20px;
+    color: #FFFCF0;
+    padding: 7px;
+}
+
+.member-input-w-btn {
+    display: flex;
+    align-items: center;
+}
+
+.member-input-w-btn input {
+    width: 350px;
+    padding: 10px;
+}
+
+.add-member-btn {
+    background-color: #FE7F2D;
+    border-radius: 50%;
+    border-color: transparent;
     cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+    margin-bottom: 50px;
+    margin-left: 20px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+  
+.cancel-button {
+    padding: 10px 20px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: #FE7F2D;
+    color: #233D4D;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-button:hover {
+    background-color: #619B8A;
 }

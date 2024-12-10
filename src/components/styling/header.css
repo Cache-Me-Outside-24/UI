@@ -17,6 +17,7 @@
     font-size: 1.6em;
     font-weight: 500;
     justify-self: flex-start;
+    margin-left: 50px;
     text-decoration: none;
     color: #233D4D;
   }
@@ -69,7 +70,7 @@
     border-radius: 4px;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    top: 80px; /* Adjust based on the profile icon size */
+    top: 80px;
     z-index: 1000;
   }
   
