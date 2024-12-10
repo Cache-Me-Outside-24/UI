@@ -14,8 +14,6 @@ const SignUpForm = ({ onSignUpSuccess }) => {
     password: "",
   });
 
-  const apiURL = process.env.REACT_APP_USER_SERVICE_API_BASE_URL;
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,6 +29,7 @@ const SignUpForm = ({ onSignUpSuccess }) => {
     e.preventDefault();
 
     const { username, email, password } = formData;
+    const apiURL = "http://35.226.115.46:4000";
 
     // Basic validation
     if (!username || !email || !password) {
