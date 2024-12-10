@@ -1,84 +1,195 @@
-import React from 'react';
-import { FaRegTrashCan } from "react-icons/fa6";
-import { PiSignOutBold } from "react-icons/pi";
-import ProfilePicture from './profile-picture';
-import './styling/settings.css';
+import React, { useState, useEffect } from "react";
+import { getAuth, updateProfile, updatePassword } from "firebase/auth";
+import "./styling/settings.css";
+import ProfilePicture from "./profile-picture";
 
+function ProfileSettings() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [profilePhotoPreview, setProfilePhotoPreview] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-function Settings() {
+  const apiURL = process.env.REACT_APP_USER_SERVICE_API_BASE_URL;
+
+  useEffect(() => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      setUsername(user.displayName || "");
+      setEmail(user.email || "");
+      setProfilePhotoPreview(
+        user.photoURL || "/assets/images/default_profile.png"
+      );
+    }
+  }, []);
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfilePhoto(file);
+      setProfilePhotoPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    if (!username.trim()) {
+      alert("Username cannot be empty.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      // Upload photo to the backend if changed
+      let photoUri = profilePhotoPreview;
+      if (profilePhoto) {
+        const formData = new FormData();
+        formData.append("file", profilePhoto);
+        formData.append("user_id", user.uid);
+
+        const response = await fetch(`${apiURL}/upload-photo`, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Failed to upload photo");
+        }
+
+        const data = await response.json();
+        photoUri = data.uri; // Update photoUri with the uploaded photo URL
+      }
+
+      // Update Firebase profile
+      await updateProfile(user, {
+        displayName: username,
+        photoURL: photoUri,
+      });
+
+      // Update backend profile
+      const response = await fetch(`${apiURL}/update-profile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: user.uid,
+          username: username,
+          profile_photo: photoUri,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to update profile");
+      }
+
+      alert("Profile updated successfully!");
+      setIsEditing(false);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePasswordChange = async () => {
+    if (!newPassword.trim()) {
+      alert("New password cannot be empty.");
+      return;
+    }
+
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      await updatePassword(user, newPassword);
+
+      alert("Password updated successfully!");
+      setNewPassword("");
+    } catch (err) {
+      setError(err.message || "Failed to update password.");
+    }
+  };
+
   return (
-    <div className='settings'>
-      <div className='personal-info'>
-          <div className='profile-picture-box'>
-              <ProfilePicture src="https://via.placeholder.com/150" 
-                  alt="Sample Photo" 
-                  size={100} 
-              ></ProfilePicture>
-              <div className='pfp-options'>
-                <button className='settings-button-1'>Update profile picture</button>
-                <button className='settings-button-1'>Delete</button>
-
-
-              </div>
-          </div>
-          <h4>Full Name</h4>
-          <div className='name-box'>
-            <div className='first-name'>
-              <label>First Name</label>
-              <input
-                type="firstName"
-                name="firstName"
-              />
-            </div>
-            <div className='last-name'>
-              <label>Last Name</label>
-              <input
-                type="lastName"
-                name="lastName"
-              />
-            </div>
-          </div>
-          <button className='change-name'>Save name</button>
-      </div>
-      <hr className='solid-divider'></hr>
-      <div className='contact-info'>
-          <h4>Email</h4>
-          <div className='email-box'>
-            email goes here
-          </div>
-      </div>
-      <hr className='solid-divider'></hr>
-      <div className='password'>
-        <h4>Password</h4>
-        <p>Edit your password</p>
-        <div className='password-box'>
-          <div className='current-password'>
-              <label>Confirm password</label>
-              <input
-                type="firstName"
-                name="firstName"
-              />
-            </div>
-            <div className='new-password'>
-              <label>New password</label>
-              <input
-                type="lastName"
-                name="lastName"
-              />
-            </div>
+    <div className="settings">
+      <div className="personal-info">
+        <div className="profile-picture-box">
+          <ProfilePicture
+            src={profilePhotoPreview}
+            alt="Sample Photo"
+            size={100}
+          ></ProfilePicture>
+          {isEditing && (
+            <label className="photo-input">
+              Upload Profile Photo
+              <input type="file" onChange={handlePhotoChange} />
+            </label>
+          )}
         </div>
-          
-      </div>
-      <hr className='solid-divider'></hr>
-      <div className='account-security'>
-          <h4>Account security</h4>
-          <div className='account-security-options'>
-            <button className='settings-button-1'><PiSignOutBold /> Log out </button>
-            <button className='delete-button'><FaRegTrashCan /> Delete account</button>
+        <h4>Username</h4>
+        {isEditing ? (
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your username"
+          />
+        ) : (
+          <p>{username}</p>
+        )}
+        <h4>Email</h4>
+        <p>{email}</p>
+        {isEditing ? (
+          <div>
+            <button
+              className="save-button"
+              onClick={handleSaveProfile}
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Save"}
+            </button>
+            <button className="save-button" onClick={() => setIsEditing(false)}>
+              Cancel
+            </button>
           </div>
+        ) : (
+          <button className="edit-button" onClick={() => setIsEditing(true)}>
+            Edit Profile
+          </button>
+        )}
+        {error && <p className="error">{error}</p>}
+      </div>
+      <hr className="solid-divider"></hr>
+      <div className="password">
+        <h4>Password</h4>
+        <div className="password-box">
+          <div>
+            <label>New Password</label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </div>
+        </div>
+        <button className="save-button" onClick={handlePasswordChange}>
+          Update Password
+        </button>
       </div>
     </div>
   );
 }
 
-export default Settings;
+export default ProfileSettings;
