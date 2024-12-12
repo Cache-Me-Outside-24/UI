@@ -3,10 +3,8 @@ import { useAuth } from "../AuthContext";
 import Button from "./button";
 import "./styling/charges-table.css";
 
-
 const ChargesTable = ({ action, view }) => {
   const [charges, setCharges] = useState([]);
-
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
   const [selectedCharge, setSelectedCharge] = useState(null); // Selected charge for payment
   const apiURL = process.env.REACT_APP_EXPENSE_SERVICE_API_BASE_URL;
@@ -31,7 +29,6 @@ const ChargesTable = ({ action, view }) => {
 
         const data = await response.json();
         setCharges(data);
-
       } catch (err) {
         console.error("Error fetching charges:", err);
       }
@@ -70,14 +67,15 @@ const ChargesTable = ({ action, view }) => {
           {displayedCharges.length > 0 ? (
             displayedCharges.map((row, index) => (
               <tr key={index}>
-                <td className="td">{row.date_posted}</td>
+                <td className="td">{row.timestamp.slice(0, 10)}</td>
                 <td className="td">{row.name}</td>
-                <td className="td">{row.group}</td>
+                <td className="td">{row.group_name}</td>
                 <td className="td">{row.amount}</td>
-                <td className="td">{row.reason}</td>
+                <td className="td">{row.description}</td>
                 <td className="td">
                   {action === "Pay" ? (
                     <Button
+                      href=""
                       onClick={() => handlePayClick(row)}
                       className="charges-action-button"
                     >
