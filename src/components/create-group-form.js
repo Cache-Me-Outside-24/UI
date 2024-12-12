@@ -74,7 +74,8 @@ function CreateGroupForm() {
       setLoading(true);
       setError(null);
 
-      let uploadedPhotoUri = null;
+      let uploadedPhotoUri =
+        "https://cdn-icons-png.freepik.com/512/10017/10017806.png";
 
       // Upload the photo if it exists
       if (groupPhoto) {

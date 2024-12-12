@@ -230,21 +230,19 @@
     background-color: #FE7F2D;
 }
   
-  
-/* Styling for the Paid By section */
 .paid-by-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between items */
+    gap: 15px; 
   }
   
   .paid-by-item {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Align name and radio button on opposite sides */
+    justify-content: space-between;
     gap: 15px;
     padding: 10px 15px;
     border-radius: 10px;
@@ -279,8 +277,9 @@
     height: 24px;
     cursor: pointer;
     position: absolute;
-    transform: translateY(-10%);
-    transform: translateX(-25%);
+    transform: translateY(-30%);
+    transform: translateX(-15%);
+    margin-top: 10px;
   }
 
   .split-between-list {
@@ -289,13 +288,13 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between items */
+    gap: 15px;
   }
 
   .split-between-item {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Align name and radio button on opposite sides */
+    justify-content: space-between; 
     gap: 15px;
     padding: 10px 15px;
     border-radius: 10px;
@@ -306,22 +305,22 @@
   .calculated-payments-list {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Space between rows */
+    gap: 20px; 
     margin-top: 10px;
   }
   
   .calculated-payments-item {
     display: flex;
-    justify-content: space-between; /* Align name and amount on opposite ends */
+    justify-content: space-between;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid #eaeaea; /* Optional divider between items */
+    border-bottom: 1px solid #eaeaea;
   }
   
   .member-name {
     font-size: 18px;
     color: #233d4d;
-    white-space: nowrap; /* Prevent name wrapping */
+    white-space: nowrap;
     text-align: left;
   }
   

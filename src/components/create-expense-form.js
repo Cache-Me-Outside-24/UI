@@ -1,57 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./styling/create-expense-form.css";
+import { AppContext } from "../AppContext";
+import { fetchGroupMembers } from "../api/groupApi";
+import { createExpense } from "../api/expenseApi";
 
 function CreateExpenseForm() {
+  const { groups } = useContext(AppContext);
   const [useExistingGroup, setUseExistingGroup] = useState(true);
-  const [groups, setGroups] = useState([]);
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [selectedGroup, setSelectedGroup] = useState("");
+  const [groupMembers, setGroupMembers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState({ Me: true });
   const [expenseTotal, setExpenseTotal] = useState("");
   const [description, setDescription] = useState("");
   const [paidBy, setPaidBy] = useState("Me");
   const [splitMethod, setSplitMethod] = useState("Equally");
   const [splitBetween, setSplitBetween] = useState({});
-  const [groupMembers, setGroupMembers] = useState([]);
   const [calculatedPayments, setCalculatedPayments] = useState({});
   const [adjustingMember, setAdjustingMember] = useState(null);
   const [adjustmentValue, setAdjustmentValue] = useState("");
 
-  // mock fetching groups and users
+  const userApiUrl = process.env.REACT_APP_USER_SERVICE_API_BASE_URL;
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // TODO: replace mock groups with fetch group api call
+    if (selectedGroup) {
+      console.log("Selected Group:", selectedGroup);
 
-    const mockGroups = [
-      { group_id: "Group1", name: "Friends" },
-      { group_id: "Group2", name: "Family" },
-    ];
-    const mockUsers = ["Me", "Maria Clague", "Kate Osorio", "John Doe"];
+      if (selectedGroup.members) {
+        const memberEmails = selectedGroup.members;
 
-    setGroups(mockGroups);
-    setUsers(mockUsers);
-  }, []);
+        setGroupMembers(memberEmails);
+        setUsers(memberEmails);
 
-  // update group members when an existing group is selected
-  useEffect(() => {
-    if (useExistingGroup && selectedGroup) {
-      // TODO: replace with fetch groups call
-      const mockMembers = {
-        Group1: ["Me", "Maria Clague", "Kate Osorio"],
-        Group2: ["Me", "John Doe", "Jane Smith"],
-      };
+        const initialSplit = {};
+        memberEmails.forEach((email) => {
+          initialSplit[email] = true;
+        });
+        setSplitBetween(initialSplit);
 
-      const members = mockMembers[selectedGroup] || [];
-      setGroupMembers(members);
-
-      const initialSplitBetween = {};
-      members.forEach((member) => {
-        initialSplitBetween[member] = true;
-      });
-      setSplitBetween(initialSplitBetween);
+        console.log("Group Members:", memberEmails);
+      }
     }
-  }, [useExistingGroup, selectedGroup]);
+  }, [selectedGroup]);
 
   // update group members when specifying users
   useEffect(() => {
@@ -161,8 +155,7 @@ function CreateExpenseForm() {
     });
   };
 
-  const handleSubmit = () => {
-    console.log("Form Submitted!");
+  const handleSubmit = async () => {
     console.log({
       useExistingGroup,
       selectedGroup: useExistingGroup ? selectedGroup : "New Group",
@@ -175,8 +168,64 @@ function CreateExpenseForm() {
       calculatedPayments,
     });
 
-    // TODO: replace with API call for creating a group if using specified users
-    if (!useExistingGroup) {
+    const groupId = selectedGroup.group_id;
+    if (useExistingGroup && groupId) {
+      console.log("Fetching members for group:", groupId);
+
+      try {
+        const detailedMembers = await fetchGroupMembers(groupId);
+        console.log("Detailed Members:", detailedMembers);
+
+        const payer = detailedMembers.find((m) => m.email === paidBy);
+
+        const expenseRequestPayload = {
+          expense: {
+            total: expenseTotal,
+            description,
+            group_id: groupId,
+            owed_to: payer.id,
+            payments: Object.entries(calculatedPayments).map(
+              ([email, amount]) => {
+                const member = detailedMembers.find((m) => m.email === email);
+                return {
+                  payer_id: member.id,
+                  amount_owed: calculatedPayments[email],
+                  paid: false,
+                };
+              }
+            ),
+          },
+          splits: Object.entries(splitBetween)
+            .map(([email, isIncluded]) => {
+              if (!isIncluded || email === paidBy) return null;
+              const member = detailedMembers.find((m) => m.email === email);
+              return {
+                group_id: groupId,
+                payer_id: payer.id,
+                amount: calculatedPayments[email],
+                timestamp: new Date().toISOString(),
+                payee_id: member.id,
+                payer_confirm: false,
+                payee_confirm: false,
+                label: description,
+              };
+            })
+            .filter(Boolean),
+        };
+
+        console.log("Expense Request Payload:", expenseRequestPayload);
+
+        // Call createExpense function
+        const response = await createExpense(
+          expenseRequestPayload.expense,
+          expenseRequestPayload.splits
+        );
+        console.log("Expense created successfully:", response);
+        navigate("/balances");
+      } catch (error) {
+        console.error("Error creating expense", error);
+      }
+    } else if (!useExistingGroup) {
       console.log("Creating new group with users:", groupMembers);
     }
   };
@@ -215,8 +264,14 @@ function CreateExpenseForm() {
               <div className="select-group-form">
                 <select
                   id="groupSelect"
-                  value={selectedGroup}
-                  onChange={(e) => setSelectedGroup(e.target.value)}
+                  value={selectedGroup ? selectedGroup.group_id : ""}
+                  onChange={(e) => {
+                    const selectedGroupId = e.target.value;
+                    const group = groups.find(
+                      (g) => String(g.group_id) === String(selectedGroupId)
+                    );
+                    setSelectedGroup(group);
+                  }}
                 >
                   <option value="" disabled>
                     Select Group
