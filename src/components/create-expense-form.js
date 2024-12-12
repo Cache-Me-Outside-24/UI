@@ -190,10 +190,10 @@ function CreateExpenseForm() {
               const member = detailedMembers.find((m) => m.email === email);
               return {
                 group_id: groupId,
-                payer_id: payer.id,
+                payer_id: member.id,
                 amount: parseFloat(calculatedPayments[email]),
                 timestamp: new Date().toISOString(),
-                payee_id: member.id,
+                payee_id: payer.id,
                 payer_confirm: false,
                 payee_confirm: false,
                 label: description,
