@@ -437,7 +437,7 @@ function CreateExpenseForm() {
                   {Object.values(splitBetween).reduce(
                     (acc, value) => acc + (parseFloat(value) || 0),
                     0
-                  )}
+                  ) !== 100 && "Total must equal 100%"}
                 </div>
               </div>
             )}

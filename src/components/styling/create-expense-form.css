@@ -322,6 +322,7 @@
     color: #233d4d;
     white-space: nowrap;
     text-align: left;
+    padding-right: 30px;
   }
   
   .payment-amount {
