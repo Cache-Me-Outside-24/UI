@@ -13,6 +13,7 @@ function Groups() {
   useEffect(() => {
     // Check if a selectedGroup is passed via navigation state
     if (location.state && location.state.selectedGroup) {
+      console.log("hre")
       setSelectedGroup(location.state.selectedGroup);
     }
   }, [location.state]);

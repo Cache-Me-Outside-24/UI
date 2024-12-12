@@ -4,7 +4,7 @@ import Home from "./pages/home";
 import SignUp from "./pages/sign-up";
 import LogIn from "./pages/login";
 import Groups from "./pages/groups";
-import Balances from "./pages/balances";
+import Balances from "./pages/balances-page";
 import CreateGroup from "./pages/create-group";
 import CreateExpense from "./pages/create-expense";
 import AccountSettings from "./pages/account-settings";
