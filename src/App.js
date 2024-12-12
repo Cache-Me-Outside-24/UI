@@ -24,9 +24,7 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <PrivateRoute>
                     <Home />
-                  </PrivateRoute>
                 }
               />
               <Route path="/sign-up" element={<SignUp />} />

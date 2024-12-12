@@ -1,0 +1,38 @@
+.home-content-default {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 80vh;
+    width: 100vw;
+}
+
+.right-home-content {
+    display: flex;
+    grid-column: 2;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-home-content {
+    display: flex;
+    grid-column: 1;
+    justify-content: center;
+    padding-left: 50px;
+    flex-direction: column;
+    text-align: left;
+}
+
+.left-home-content h1 {
+    font-size: 50px;
+     margin-block-end: 0%;
+}
+
+.demo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    height: 65%;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid black;
+}

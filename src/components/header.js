@@ -40,13 +40,13 @@ function Header() {
         CREW-CUT
       </Link>
 
-      <div className="header-nav">
-        <Link to="/groups">My Groups</Link>
-        <Link to="/balances">My Balances</Link>
-      </div>
-
       {isSignedIn ? (
+  
         <div className="signed-in-component">
+          <div className="header-nav">
+            <Link to="/groups">My Groups</Link>
+            <Link to="/balances">My Balances</Link>
+          </div>
           <FaUserCircle
             size={40}
             color="#EE6123"
