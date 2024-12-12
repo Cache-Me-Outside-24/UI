@@ -135,7 +135,7 @@ function CreateGroupForm() {
       setGroupPhotoPreview("/assets/images/default_group.png");
 
       // Navigate to the Groups page
-      navigate("/groups", { state: { selectedGroup: createdGroup } });
+      navigate("/groups");
     } catch (err) {
       setError(err.message);
     } finally {

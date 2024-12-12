@@ -19,9 +19,9 @@ function HomeSignedChild() {
         </div>
         <div className="charge-container">
           <h3> You are owed </h3>
-          <ChargesTable action="Remind" />
+          <ChargesTable action="Remind" view="home"/>
           <h3> You owe </h3>
-          <ChargesTable action="Pay" />
+          <ChargesTable action="Pay" view="home"/>
         </div>
       </div>
       <div className="right-content">
