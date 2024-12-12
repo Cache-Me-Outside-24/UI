@@ -13,7 +13,6 @@ function CreateGroupForm() {
   const [groupPhotoPreview, setGroupPhotoPreview] = useState(
     "/assets/images/default_group.png" // Default group photo path
   );
-  const [uploadedPhotoUri, setUploadedPhotoUri] = useState(null); // For the uploaded URI
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
@@ -55,32 +54,11 @@ function CreateGroupForm() {
     setMembers(members.filter((member) => member !== email));
   };
 
-  const handlePhotoChange = async (e) => {
+  const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setGroupPhoto(file);
       setGroupPhotoPreview(URL.createObjectURL(file));
-
-      // Upload the photo to get the URI
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const response = await fetch(`${apiURL}/upload-photo`, {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.detail || "Failed to upload photo");
-        }
-
-        const data = await response.json();
-        setUploadedPhotoUri(data.uri); // Set the uploaded photo URI
-      } catch (err) {
-        setError(err.message);
-      }
     }
   };
 
@@ -95,6 +73,27 @@ function CreateGroupForm() {
     try {
       setLoading(true);
       setError(null);
+
+      let uploadedPhotoUri = null;
+
+      // Upload the photo if it exists
+      if (groupPhoto) {
+        const formData = new FormData();
+        formData.append("file", groupPhoto);
+
+        const uploadResponse = await fetch(`${apiURL}/upload-photo`, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          const errorData = await uploadResponse.json();
+          throw new Error(errorData.detail || "Failed to upload photo");
+        }
+
+        const uploadData = await uploadResponse.json();
+        uploadedPhotoUri = uploadData.uri; // Get the uploaded photo URI
+      }
 
       // Make a call to create group
       const response = await fetch(`${apiURL}/groups`, {
@@ -132,7 +131,7 @@ function CreateGroupForm() {
       setNewGroupName("");
       setMembers([]);
       setGroupPhoto(null);
-      setUploadedPhotoUri(null);
+      setGroupPhotoPreview("/assets/images/default_group.png");
 
       // Navigate to the Groups page
       navigate("/groups", { state: { selectedGroup: createdGroup } });
