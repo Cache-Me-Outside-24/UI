@@ -180,7 +180,7 @@ function CreateExpenseForm() {
 
         const expenseRequestPayload = {
           expense: {
-            total: expenseTotal,
+            total: parseFloat(expenseTotal),
             description,
             group_id: groupId,
           },
@@ -191,7 +191,7 @@ function CreateExpenseForm() {
               return {
                 group_id: groupId,
                 payer_id: payer.id,
-                amount: calculatedPayments[email],
+                amount: parseFloat(calculatedPayments[email]),
                 timestamp: new Date().toISOString(),
                 payee_id: member.id,
                 payer_confirm: false,
