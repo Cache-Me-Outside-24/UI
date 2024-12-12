@@ -3,8 +3,10 @@ import { useAuth } from "../AuthContext";
 import Button from "./button";
 import "./styling/charges-table.css";
 
+
 const ChargesTable = ({ action, view }) => {
   const [charges, setCharges] = useState([]);
+
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
   const [selectedCharge, setSelectedCharge] = useState(null); // Selected charge for payment
   const apiURL = process.env.REACT_APP_EXPENSE_SERVICE_API_BASE_URL;
@@ -29,6 +31,7 @@ const ChargesTable = ({ action, view }) => {
 
         const data = await response.json();
         setCharges(data);
+
       } catch (err) {
         console.error("Error fetching charges:", err);
       }

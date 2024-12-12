@@ -183,17 +183,6 @@ function CreateExpenseForm() {
             total: expenseTotal,
             description,
             group_id: groupId,
-            owed_to: payer.id,
-            payments: Object.entries(calculatedPayments).map(
-              ([email, amount]) => {
-                const member = detailedMembers.find((m) => m.email === email);
-                return {
-                  payer_id: member.id,
-                  amount_owed: calculatedPayments[email],
-                  paid: false,
-                };
-              }
-            ),
           },
           splits: Object.entries(splitBetween)
             .map(([email, isIncluded]) => {
