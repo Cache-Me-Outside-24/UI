@@ -1,0 +1,396 @@
+.create-expense-header {
+    margin: 30px 20px 20px 70px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #233D4D;
+    text-align: left;
+
+}
+
+.header-line {
+    margin: 0 auto;
+    flex-grow: 1;
+    width: 92%;
+    height: 1px;
+    background-color: #c6c5c1;
+    margin-bottom: 20px;
+}
+
+.subheader-label {
+    display: block; 
+    margin-bottom: 10px;
+    font-size: 25px;
+    color: #233D4D;
+} 
+.select-group-form select {
+    width: 100%;
+    font-size: 24px;
+    font-weight: bold;
+    font-style: italic;
+    color: #233D4D;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #233D4D;
+    outline: none;
+    background-color: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.select-group-form select:focus {
+    border-bottom: 2px solid #FE7F2D; 
+}
+
+.select-group-form {
+    position: relative;
+}
+
+.select-group-form select::placeholder {
+    color: #c6c5c1; 
+}
+
+.select-group-form::after {
+    content: "v";
+    font-size: 16px;
+    color: #233D4D;
+    position: absolute;
+    right: 65px;
+    top: 30%;
+    transform: translateY(-20%);
+    pointer-events: none;
+}
+
+.toggle-group-button {
+    border-radius: 20px;
+    color: #233D4D;
+    border-color: #233D4D;
+    background-color: #FFFCF0;
+    margin: 10px;
+    margin-top: 20px;
+    font-family: 'Jost', 'Segoe UI';
+}
+
+
+.toggle-group-button.active {
+    border-radius: 20px;
+    border-color: transparent;
+    background-color: #233D4D;
+    color: #FFFCF0;
+    margin: 10px;
+    margin-top: 20px;
+}
+
+.toggle-group-button:hover {
+    border-radius: 20px;
+    border-color: transparent;
+    background-color: #233D4D;
+    color: #FFFCF0;
+    margin: 10px;
+}
+
+.create-expense-form-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.create-expense-form-left {
+    padding: 40px;
+    max-width: 500px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.create-expense-form-right {
+    padding: 40px;
+    max-width: 500px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.create-expense-form-body input {
+    width: 80%; 
+    padding: 10px;
+    margin-bottom: 50px; 
+    box-sizing: border-box; 
+    border: none; 
+    border-bottom: 1px solid #233D4D;
+    outline: none;
+    background-color: transparent;
+    border-radius: 0;
+    font-family: 'Jost', 'Segoe UI';
+    font-style: italic;
+    font-size: 15px;
+}
+
+.create-expense-form-body select {
+    width: 80%; 
+    padding: 10px;
+    margin-top: 30px;
+    margin-bottom: 60px; 
+    box-sizing: border-box; 
+    border: none; 
+    border-bottom: 1px solid #233D4D;
+    outline: none;
+    background-color: transparent;
+    border-radius: 0;
+    font-family: 'Jost', 'Segoe UI';
+    font-style: bold;
+    font-size: 15px;
+}
+
+.form-actions {
+    margin: 0 auto;
+    max-width: 500px;
+    margin-bottom: 100px;
+}
+
+.cancel-button {
+    padding: 10px 20px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.create-button {
+    padding: 10px 20px;
+    background-color: #FE7F2D;
+    color: #233D4D;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 100px;
+}
+
+.create-button:hover {
+    background-color: #619B8A;
+}
+
+.split-method-btn {
+    border-radius: 30px;
+    border-style: solid;
+    padding: 4px 8px 4px 8px;
+    margin: 5px;
+    font-family: 'Jost', 'Segoe UI';
+}
+
+.equally-inactive {
+    border-color: #F35BE6;
+    background-color: transparent;
+}
+
+.equally-active {
+    background-color: #F35BE6;
+    border-color: transparent;
+}
+
+.equally-inactive:hover {
+    background-color: #F35BE6;
+    border-color: transparent;
+}
+  
+.percentage-inactive {
+    border-color: #619B8A;
+    background-color: transparent;
+}
+
+.percentage-active {
+    background-color: #619B8A;
+    border-color: transparent;
+}
+
+.percentage-inactive:hover {
+    background-color: #619B8A;
+    border-color: transparent;
+}
+  
+.exact-amount-inactive {
+    border-color: #FE7F2D;
+    background-color: transparent;
+}
+
+.exact-amount-active {
+    background-color: #FE7F2D;
+    border-color: transparent;
+}
+
+.exact-amount-inactive:hover {
+    background-color: #FE7F2D;
+}
+  
+  
+/* Styling for the Paid By section */
+.paid-by-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between items */
+  }
+  
+  .paid-by-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Align name and radio button on opposite sides */
+    gap: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .paid-by-item:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .expense-profile-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #233d4d; 
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .group-member-name {
+    font-size: 18px;
+    color: #233d4d;
+    margin-right: auto;
+    white-space: nowrap; 
+  }
+  
+  .radio-input {
+    accent-color: #619b8a; 
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    position: absolute;
+    transform: translateY(-10%);
+    transform: translateX(-25%);
+  }
+
+  .split-between-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between items */
+  }
+
+  .split-between-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Align name and radio button on opposite sides */
+    gap: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .calculated-payments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between rows */
+    margin-top: 10px;
+  }
+  
+  .calculated-payments-item {
+    display: flex;
+    justify-content: space-between; /* Align name and amount on opposite ends */
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eaeaea; /* Optional divider between items */
+  }
+  
+  .member-name {
+    font-size: 18px;
+    color: #233d4d;
+    white-space: nowrap; /* Prevent name wrapping */
+    text-align: left;
+  }
+  
+  .payment-amount {
+    font-size: 18px;
+    color: #233d4d;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .percentage-split {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .percentage-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .percentage-input {
+    width: 50px;
+    text-align: right;
+    padding: 5px;
+    border: 1px solid #233d4d;
+    border-radius: 5px;
+  }
+  
+  .exact-amount-split {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .exact-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .exact-input {
+    width: 70px;
+    text-align: right;
+    padding: 5px;
+    border: 1px solid #233d4d;
+    border-radius: 5px;
+  }
+
+  .adjust-btn {
+    margin-left: 30px;
+    background-color: #FCCA46;
+    color: #233d4d;
+    border-radius: 30px;
+    border-color: transparent;
+    font-family: 'Jost', 'Segoe UI';
+  }
+  
+  .apply-adjust-btn {
+    margin-left: 30px;
+    background-color: #FE7F2D;
+    color: #233d4d;
+    border-radius: 30px;
+    border-color: transparent;
+    font-family: 'Jost', 'Segoe UI';
+  }
+  
+  
+  
