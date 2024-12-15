@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./styling/create-group-form.css";
 import { useAuth } from "../AuthContext";
 
-function CreateGroupForm() {
+function CreateGroupForm({ hideHeader, hideButtons }) {
   const { groups, setGroups } = useContext(AppContext);
   const [newGroupName, setNewGroupName] = useState("");
   const [newMember, setNewMember] = useState("");
@@ -145,7 +145,11 @@ function CreateGroupForm() {
 
   return (
     <div className="create-group-form">
-      <div className="create-group-header">Create New Group</div>
+      <div>
+        {!hideHeader && (
+          <div className="create-group-header"> Create New Group</div>
+        )}
+      </div>
       <div className="header-line"></div>
       <div className="create-group-form-body">
         {error && <div className="error">{error}</div>}
@@ -206,16 +210,24 @@ function CreateGroupForm() {
             </div>
           </div>
           <div className="form-actions">
-            <button
-              type="button"
-              onClick={() => navigate("/groups")}
-              className="cancel-button"
-            >
-              Cancel
-            </button>
-            <button type="submit" disabled={loading} className="submit-button">
-              {loading ? "Creating..." : "Create Group"}
-            </button>
+            {!hideButtons && (
+              <button
+                type="button"
+                onClick={() => navigate("/groups")}
+                className="cancel-button"
+              >
+                Cancel
+              </button>
+            )}
+            {!hideButtons && (
+              <button
+                type="submit"
+                disabled={loading}
+                className="submit-button"
+              >
+                {loading ? "Creating..." : "Create Group"}
+              </button>
+            )}
           </div>
         </form>
       </div>

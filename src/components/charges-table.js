@@ -8,6 +8,7 @@ const ChargesTable = ({ action, view }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
   const [selectedCharge, setSelectedCharge] = useState(null); // Selected charge for payment
   const apiURL = process.env.REACT_APP_EXPENSE_SERVICE_API_BASE_URL;
+  const messageURL = process.env.REACT_APP_EMAIL_REMINDER_TRIGGER_URL;
   const { user } = useAuth();
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const ChargesTable = ({ action, view }) => {
         }
 
         const data = await response.json();
+        console.log(data);
         setCharges(data);
       } catch (err) {
         console.error("Error fetching charges:", err);
@@ -48,6 +50,41 @@ const ChargesTable = ({ action, view }) => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedCharge(null);
+  };
+
+  const sendReminder = async (charge) => {
+    const reminderPayload = {
+      toUser: { email: charge.email, name: charge.name },
+      fromUser: { email: user.email, name: user.displayName },
+      expense: charge.amount,
+      groupName: charge.group_name,
+      description: charge.description,
+    };
+
+    try {
+      console.log();
+      console.log("SENDINING REMINDER: ", reminderPayload);
+      const response = await fetch(messageURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reminderPayload),
+      });
+
+      if (response.ok) {
+        const data = await response.text();
+        console.log("Reminder sent successfully:", data);
+        alert("Reminder email sent!");
+      } else {
+        const error = await response.text();
+        console.error("Error sending reminder:", error);
+        alert("Failed to send the reminder.");
+      }
+    } catch (err) {
+      console.error("Request error:", err);
+      alert("An error occurred while sending the reminder.");
+    }
   };
 
   return (
@@ -74,17 +111,20 @@ const ChargesTable = ({ action, view }) => {
                 <td className="td">{row.description}</td>
                 <td className="td">
                   {action === "Pay" ? (
-                    <Button
+                    <button
                       href=""
                       onClick={() => handlePayClick(row)}
                       className="charges-action-button"
                     >
                       {action}
-                    </Button>
+                    </button>
                   ) : (
-                    <Button href="" className="charges-action-button">
+                    <button
+                      onClick={() => action === "Remind" && sendReminder(row)}
+                      className="charges-action-button"
+                    >
                       {action}
-                    </Button>
+                    </button>
                   )}
                 </td>
               </tr>
@@ -92,7 +132,8 @@ const ChargesTable = ({ action, view }) => {
           ) : (
             <tr>
               <td className="td" colSpan="6">
-                You do not have any pending {action === "Remind" ? "collections" : "payments"}.
+                You do not have any pending{" "}
+                {action === "Remind" ? "collections" : "payments"}.
               </td>
             </tr>
           )}
@@ -114,7 +155,12 @@ const ChargesTable = ({ action, view }) => {
               <Button onClick={closeModal} className="modal-button cancel">
                 Cancel
               </Button>
-              <Button onClick={() => { /* Add payment logic here */ closeModal(); }} className="modal-button confirm">
+              <Button
+                onClick={() => {
+                  /* Add payment logic here */ closeModal();
+                }}
+                className="modal-button confirm"
+              >
                 Confirm
               </Button>
             </div>

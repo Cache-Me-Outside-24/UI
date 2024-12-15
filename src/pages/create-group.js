@@ -7,7 +7,7 @@ function CreateGroup() {
   return (
     <div className="create-group-page">
       <Header />
-      <CreateGroupForm />
+      <CreateGroupForm hideHeader={false} hideButtons={false} />
     </div>
   );
 }

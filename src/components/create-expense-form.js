@@ -4,6 +4,7 @@ import "./styling/create-expense-form.css";
 import { AppContext } from "../AppContext";
 import { fetchGroupMembers } from "../api/groupApi";
 import { createExpense } from "../api/expenseApi";
+import CreateGroupForm from "../components/create-group-form";
 
 function CreateExpenseForm() {
   const { groups } = useContext(AppContext);
@@ -22,6 +23,11 @@ function CreateExpenseForm() {
   const [calculatedPayments, setCalculatedPayments] = useState({});
   const [adjustingMember, setAdjustingMember] = useState(null);
   const [adjustmentValue, setAdjustmentValue] = useState("");
+  const [newGroupData, setNewGroupData] = useState({
+    name: "",
+    members: [], // Dynamically updated by CreateGroupForm
+    group_photo: "",
+  });
 
   const userApiUrl = process.env.REACT_APP_USER_SERVICE_API_BASE_URL;
   const navigate = useNavigate();
@@ -275,42 +281,7 @@ function CreateExpenseForm() {
             )}
 
             {!useExistingGroup && (
-              <div className="form-group">
-                <label>Specify Users:</label>
-                <input
-                  type="text"
-                  placeholder="Start typing a name..."
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                />
-                <div className="autocomplete-dropdown">
-                  {filteredUsers.map((user) => (
-                    <div
-                      key={user}
-                      className="autocomplete-item"
-                      onClick={() => handleAddUser(user)}
-                    >
-                      {user}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="selected-users">
-                  {Object.keys(selectedUsers).map((user) => (
-                    <div key={user} className="selected-user">
-                      {user}{" "}
-                      {user !== "Me" && (
-                        <button
-                          className="remove-user-button"
-                          onClick={() => handleRemoveUser(user)}
-                        >
-                          x
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <CreateGroupForm hideHeader={true} hideButtons={true} />
             )}
 
             <div className="form-group">
