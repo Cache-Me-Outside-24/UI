@@ -8,6 +8,7 @@ import Balances from "./pages/balances-page";
 import CreateGroup from "./pages/create-group";
 import CreateExpense from "./pages/create-expense";
 import AccountSettings from "./pages/account-settings";
+import Payments from "./pages/payments";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./AuthContext";
 import { AppProvider } from "./AppContext";
@@ -21,21 +22,16 @@ function App() {
         <AuthProvider>
           <AppProvider>
             <Routes>
-              <Route
-                path="/"
-                element={
-                    <Home />
-                }
-              />
+              <Route path="/" element={<Home />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/login" element={<LogIn />} />
-              <Route 
-                path="/account" 
+              <Route
+                path="/account"
                 element={
                   <PrivateRoute>
-                  <AccountSettings />
+                    <AccountSettings />
                   </PrivateRoute>
-                } 
+                }
               />
               <Route
                 path="/groups"
@@ -50,6 +46,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Balances />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/payments"
+                element={
+                  <PrivateRoute>
+                    <Payments />
                   </PrivateRoute>
                 }
               />

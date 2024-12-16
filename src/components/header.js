@@ -41,11 +41,11 @@ function Header() {
       </Link>
 
       {isSignedIn ? (
-  
         <div className="signed-in-component">
           <div className="header-nav">
             <Link to="/groups">My Groups</Link>
             <Link to="/balances">My Balances</Link>
+            <Link to="/payments">My Payments</Link>
           </div>
           <FaUserCircle
             size={40}
