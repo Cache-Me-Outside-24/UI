@@ -31,8 +31,12 @@
     align-items: center;
     justify-content: center;
     width: 85%;
-    height: 65%;
+    height: 56%;
     background-color: white;
     border-radius: 10px;
     border: 2px solid black;
+}
+
+.demo-video {
+    width: 100%;
 }
