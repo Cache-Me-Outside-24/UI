@@ -12,31 +12,29 @@ const ChargesTable = ({ action, view }) => {
   const messageURL = process.env.REACT_APP_EMAIL_REMINDER_TRIGGER_URL;
   const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchCharges = async () => {
-      try {
-        const response = await fetch(
-          `${apiURL}/expenses/${action === "Remind" ? "payee" : "payer"}/${
-            user.uid
-          }`,
-          {
-            method: "GET",
-          }
-        );
+  const fetchCharges = async () => {
+    try {
+      const response = await fetch(
+        `${apiURL}/expenses/${action === "Remind" ? "payee" : "payer"}/${
+          user.uid
+        }`,
+        { method: "GET" }
+      );
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.detail || "Failed to fetch expenses");
-        }
-
-        const data = await response.json();
-        console.log(data);
-        setCharges(data);
-      } catch (err) {
-        console.error("Error fetching charges:", err);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to fetch expenses");
       }
-    };
 
+      const data = await response.json();
+      console.log("Fetched charges:", data);
+      setCharges(data);
+    } catch (err) {
+      console.error("Error fetching charges:", err);
+    }
+  };
+
+  useEffect(() => {
     fetchCharges();
   }, []);
 
@@ -54,12 +52,46 @@ const ChargesTable = ({ action, view }) => {
     setPaymentMethod("");
   };
 
+  const handleConfirm = async (charge) => {
+    const payload = {
+      payer_id: charge.payer_id, // payer_id from the row data
+    };
+
+    try {
+      const response = await fetch(
+        `${apiURL}/expenses/${charge.expense_id}/confirm/${user.uid}`, // expense_id from the row and user.uid as payee_id
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to confirm payment");
+      }
+
+      const data = await response.json();
+      console.log("Payment confirmed successfully!", data);
+      alert("Payment confirmed successfully!");
+
+      fetchCharges();
+    } catch (err) {
+      console.error("Error confirming payment:", err);
+      alert("An error occurred while confirming the payment.");
+    }
+  };
+
   const handleConfirmPayment = async () => {
     try {
       const payload = {
         amount_owed: selectedCharge.amount,
-        paid: false, // Set to false initially
+        group_id: selectedCharge.group_id, // Set to false initially
         method: paymentMethod, // User-entered method
+        payee_id: selectedCharge.payee_id,
       };
 
       const response = await fetch(
@@ -79,6 +111,8 @@ const ChargesTable = ({ action, view }) => {
       }
 
       console.log("Payment updated successfully!");
+      alert("Payment made successfully!");
+      fetchCharges();
       closeModal();
     } catch (err) {
       console.error("Error confirming payment:", err);
@@ -145,11 +179,13 @@ const ChargesTable = ({ action, view }) => {
                 <td className="td">
                   {action === "Pay" ? (
                     <button
-                      href=""
-                      onClick={row.confirm ? null : () => handlePayClick(row)}
+                      onClick={() => {
+                        if (!row || row.confirm) return;
+                        handlePayClick(row);
+                      }}
                       className="charges-action-button"
                     >
-                      {action}
+                      {row.confirm ? "Waiting for Confirmation" : action}
                     </button>
                   ) : (
                     <button
@@ -160,7 +196,7 @@ const ChargesTable = ({ action, view }) => {
                       }
                       className="charges-action-button"
                     >
-                      {action}
+                      {row.confirm ? "Confirm Payment" : action}
                     </button>
                   )}
                 </td>
@@ -185,7 +221,7 @@ const ChargesTable = ({ action, view }) => {
             <p>
               Are you sure you want to pay{" "}
               <strong>{selectedCharge?.amount}</strong> for{" "}
-              <strong>{selectedCharge?.reason}</strong> to{" "}
+              <strong>{selectedCharge?.group_name}</strong> to{" "}
               <strong>{selectedCharge?.name}</strong>?
             </p>
             <label className="modal-label">
@@ -199,16 +235,16 @@ const ChargesTable = ({ action, view }) => {
               />
             </label>
             <div className="modal-actions">
-              <Button onClick={closeModal} className="modal-button cancel">
+              <button onClick={closeModal} className="modal-button cancel">
                 Cancel
-              </Button>
-              <Button
+              </button>
+              <button
                 onClick={handleConfirmPayment}
                 className="modal-button confirm"
                 disabled={!paymentMethod}
               >
                 Confirm
-              </Button>
+              </button>
             </div>
           </div>
         </div>
